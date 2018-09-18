@@ -3,7 +3,6 @@
 set -e
 
 # Authenticate with terminus.
-echo "Authenticating with Terminus:" $PANTHEON_MACHINE_TOKEN;
 cd $LANDO_MOUNT;
 if [ ! -z "${PANTHEON_MACHINE_TOKEN}" ]; then
  terminus auth:login --machine-token=${PANTHEON_MACHINE_TOKEN}

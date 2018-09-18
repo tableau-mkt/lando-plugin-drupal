@@ -7,6 +7,26 @@ use with Lando, including customized tooling:
   - Db-import
   - Deploy
   - Site-aliasing
+  
+Installation
+------------
+Add the following repository information to your app composer.json file
+
+```json
+...
+"repositories": [
+  {
+    "type": "vcs",
+    "url": "git@github.com:tableau-mkt/lando-plugin-tableau-recipes.git",
+    "no-api": true
+  }
+],
+...
+```  
+
+```bash
+composer require tableau-mkt/tableau-recipes:dev-master
+```  
 
 Setting up X-debug in PhpStorm
 ------------------------------
