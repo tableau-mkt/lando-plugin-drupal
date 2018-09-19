@@ -4,7 +4,8 @@ set -e
 
 # Authenticate with terminus.
 cd $LANDO_MOUNT;
-if [ ! -z "${PANTHEON_MACHINE_TOKEN}" ]; then
+ echo "Authenticating with terminus...";
+if [ $(terminus auth:whoami | grep "You are not logged in.") ] && [ ! -z "${PANTHEON_MACHINE_TOKEN}" ]; then
  terminus auth:login --machine-token=${PANTHEON_MACHINE_TOKEN}
 
  # Add a remote git to our respective Pantheon site.

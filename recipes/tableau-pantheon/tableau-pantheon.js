@@ -48,24 +48,17 @@ module.exports = function(lando) {
       {local: path.join(servicesHelpersDir, '_util.sh'), remote: [helpersDir, '_util.sh'].join('/')}
     ];
     const tools = _.get(build, 'tooling', {});
-    const runKey = 'services.appserver.install_dependencies_as_me';
-    const runRootKey = 'services.appserver.install_dependencies_as_root';
+    const runKey = 'services.appserver.run_as_me';
+    const runRootKey = 'services.appserver.run_as_root';
     // Initialize our queue so we can push scripts to run on lando start.
-    build.services.appserver.install_dependencies_as_me = _.get(build, runKey, []);
-    build.services.appserver.install_dependencies_as_root = _.get(build, runRootKey, []);
-
-    if (_.has(config, 'quick_bootstrap') && config.quick_bootstrap) {
-      // Support faster bootstrap for Drupal
-      mounts.push({local: path.join(configDir, 'scripts/quick_bootstrap.sh'),
-        remote: [helpersDir, 'quick_bootstrap.sh'].join('/')});
-      build.services.appserver.install_dependencies_as_me.push('/helpers/tableau/quick_bootstrap.sh on');
-    }
+    build.services.appserver.run_as_me = _.get(build, runKey, []);
+    build.services.appserver.run_as_root = _.get(build, runRootKey, []);
 
     // Ensure Drush always points to the correct executable.
-    build.services.appserver.install_dependencies_as_me.push('/helpers/tableau/drush.sh');
+    build.services.appserver.run_as_me.push('/helpers/tableau/drush.sh');
 
     // Authenticate with terminus and set up a Pantheon git remote.
-    build.services.appserver.install_dependencies_as_me.push('/helpers/tableau/pantheon.sh');
+    build.services.appserver.run_as_me.push('/helpers/tableau/pantheon.sh');
 
     // Add in the xdebug command to toggle x-debug on|off entirely.
     build.services.appserver.config = merger(build.services.appserver.config, {conf: path.join(configDir, 'config/xdebug.ini')});

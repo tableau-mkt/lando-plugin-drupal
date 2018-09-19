@@ -7,26 +7,6 @@ use with Lando, including customized tooling:
   - Db-import
   - Deploy
   - Site-aliasing
-  
-Installation
-------------
-Add the following repository information to your app composer.json file
-
-```json
-...
-"repositories": [
-  {
-    "type": "vcs",
-    "url": "git@github.com:tableau-mkt/lando-plugin-tableau-recipes.git",
-    "no-api": true
-  }
-],
-...
-```  
-
-```bash
-composer require tableau-mkt/tableau-recipes:dev-master
-```  
 
 Setting up X-debug in PhpStorm
 ------------------------------
@@ -67,7 +47,7 @@ lando rebuild
 # Rebuild one or multiple container
 lando rebuild -s appserver -s cache
 
-# Destroy the containers and tools for this app
+# Destroy the containers and tools for this app (warning: this will delete your database as well)
 lando destroy
 # Get info on Lando service logs
 lando logs
@@ -210,8 +190,9 @@ Push up code changes to Pantheon
 ```bash
 # Deploy changes to Pantheon
 # -e, --env is the target branch on Pantheon
+# -pc, --post-command will run post commands (i.e. all, cr, updb, cim or none).
 # --force allows you to push up to reserved branches.
-lando deploy --env=master --force
+lando deploy --env=master --post-command=all --force
 ```
 
 ###  Advanced commands.

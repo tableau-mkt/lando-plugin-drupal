@@ -68,7 +68,7 @@ module.exports = function(lando) {
     }
 
     // Support vendor file mounts.
-    if (_.has(config, 'vendormount') && config.vendormount) {
+    if (_.has(config, 'vendormount') && app.config.config.vendormount) {
       app.volumes = _.merge(app.volumes, {
         'vendor': {},
         'node_modules': {},
@@ -77,33 +77,6 @@ module.exports = function(lando) {
         'drupal_themes': {},
       });
     }
-  });
-
-  // Do things all the way at the end.
-  lando.events.on('post-instantiate-app', 10, function(app) {
-    // Restore original index.php
-    app.events.on('post-start', 10, function() {
-      if (app.config.config.quick_bootstrap) {
-        // Build the container.
-        const container = [app.name, 'appserver', '1'].join('_');
-        // Add the build command.
-        let build = [{
-          id: container,
-          cmd: 'sh /helpers/tableau/quick_bootstrap.sh off',
-          compose: app.compose,
-          project: app.name,
-          opts: {
-            app: app,
-            mode: 'attach',
-            user: 'www-data',
-            services: ['appserver'],
-          },
-        }];
-
-        // Run the custom commands
-        return lando.engine.run(build);
-      }
-    });
   });
 
 };
