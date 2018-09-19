@@ -68,7 +68,7 @@ module.exports = function(lando) {
     }
 
     // Support vendor file mounts.
-    if (_.has(config, 'vendormount') && app.config.config.vendormount) {
+    if (_.has(config, 'vendormount') && config.vendormount) {
       app.volumes = _.merge(app.volumes, {
         'vendor': {},
         'node_modules': {},

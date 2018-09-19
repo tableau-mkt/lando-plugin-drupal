@@ -116,11 +116,14 @@ module.exports = function(lando) {
         database: {
           passthrough: false,
           alias: ['d'],
-          describe: 'The name of the database to import into (defaults to pantheon).'
+          describe: 'The name of the database to import into (defaults to pantheon).',
+          default: 'pantheon'
         },
         force: {
           passthrough: false,
-          describe: 'Skips checking for existing backups and forces a download from Pantheon.'
+          describe: 'Skips checking for existing backups and forces a download from Pantheon.',
+          boolean: true,
+          default: false
         }
       }
     };
@@ -148,14 +151,16 @@ module.exports = function(lando) {
           describe: 'The commands to run post deployment.',
           interactive: {
             type: 'input',
-            default: 'all',
-            message: 'Which post deployment commands would you like to run? (i.e. all, cr, updb or cim)',
+            default: 'none',
+            message: 'Which post deployment commands would you like to run? (i.e. all, cr, updb, cim or none)',
             weight: 600
           }
         },
         force: {
           passthrough: false,
-          describe: 'Forces the deployment. Required when pushing to a reserved branch (e.g. master).'
+          describe: 'Forces the deployment. Required when pushing to a reserved branch (e.g. master).',
+          boolean: true,
+          default: false
         }
       }
     };
@@ -169,12 +174,14 @@ module.exports = function(lando) {
         database: {
           passthrough: false,
           alias: ['d'],
-          describe: 'The name of the database to import into (defaults to pantheon).'
+          describe: 'The name of the database to import into (defaults to pantheon).',
+          default: 'pantheon'
         },
         file: {
           passthrough: false,
           alias: ['f'],
-          describe: 'The path to the database file (relative to /app).'
+          describe: 'The path to the database file (relative to /app).',
+          default: ''
         }
       }
     };
@@ -254,7 +261,7 @@ module.exports = function(lando) {
     let volumes = _.get(build, volumePath, {});
 
     // Add these folders as volumes to our appserver.
-    volumes = utils.services.addConfig('nfsmount:/app', volumes);
+    volumes = utils.services.addConfig('${LANDO_NFS_MOUNT}:/app', volumes);
 
     // Add everything to the build object.
     _.set(build, volumePath, volumes);
