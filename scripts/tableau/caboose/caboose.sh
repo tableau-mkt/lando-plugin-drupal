@@ -10,22 +10,33 @@ ENV=$(cd $LANDO_MOUNT && git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 if [ "$ENV" == "master" ]; then
   ENV="dev"
 fi
+AUTH=${TERMINUS_USER}
+SITE=${PANTHEON_SITE_NAME:-${TERMINUS_SITE:-whoops}}
 FILES="none"
 FORCE=false
+NO_AUTH=false
 
-# Database configuration.
+# Default database configuration.
 HOST=database
 USER=root
 DATABASE=pantheon
 PORT=3306
 
 # Declare variables.
-SSH_KEY="/lando/keys/pantheon.lando.id_rsa"
 FILE_DUMP="/tmp/files.tar.gz"
 
 # Parse our options.
 while (( "$#" )); do
   case "$1" in
+    --auth|--auth=*)
+      if [ "${1##--auth=}" != "$1" ]; then
+        AUTH="${1##--auth=}"
+        shift
+      else
+        AUTH=$2
+        shift 2
+      fi
+      ;;
     -e|--env|--env=*)
       if [ "${1##--env=}" != "$1" ]; then
         ENV="${1##--env=}"
@@ -93,13 +104,16 @@ while (( "$#" )); do
       FORCE=true
       shift
       ;;
+    --no-auth)
+        NO_AUTH=true
+        shift
+      ;;
     --)
       shift
       break
       ;;
     -*|--*=)
-      critical "Unsupported flag $1" >&2
-      exit 1
+      shift
       ;;
     *)
       shift
@@ -107,21 +121,11 @@ while (( "$#" )); do
   esac
 done
 
-# Do some basic validation to make sure we are logged in.
-info "Verifying that you are logged in and authenticated."
-/helpers/tableau/pantheon.sh
-if [ $(terminus auth:whoami | grep "You are not logged in.") ] ; then
-  critical "You are not authenticated with Terminus. Try running the following command first:
-  ${YLW}'lando ssh -c \"terminus auth:login --machine-token=\${PANTHEON_MACHINE_TOKEN}\"${RESET}"
-  exit 1;
-fi
+info "Run 'lando caboose --help' for more information"
 
-# Ensuring a viable ssh key.
-info "Checking for $SSH_KEY"
-if [ ! -f "$SSH_KEY" ]; then
-  ssh-keygen -t rsa -N "" -C "lando" -f "$SSH_KEY"
-  terminus ssh-key:add "$SSH_KEY.pub"
-  /scripts/load-keys.sh
+# Go through the auth procedure
+if [ "$NO_AUTH" == "false" ]; then
+  /helpers/auth.sh "$AUTH" "$SITE"
 fi
 
 # Get the database
@@ -155,7 +159,7 @@ if [ "$ENV" != "none" ]; then
   # Inform the user of things.
   info "Preparing to import $FILE into $DATABASE on $HOST:$PORT as $USER..."
   CMD="$FILE"
-  SQLSTART="mysql -h $HOST -P $PORT -u $USER $DATABASE"
+  SQLSTART="mysql --host $HOST --port $PORT --user $USER --database=$DATABASE"
 
   # Wipe the database.
   # Gather and destroy tables.

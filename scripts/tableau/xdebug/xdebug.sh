@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Reference helper functions.
 source /helpers/tableau/_util.sh
