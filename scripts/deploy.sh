@@ -3,7 +3,7 @@
 set -eo pipefail
 
 # Reference helper functions.
-source /helpers/tableau/_util.sh
+source /helpers/_util.sh
 
 # Declare variables.
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)

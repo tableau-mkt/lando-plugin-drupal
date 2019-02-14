@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Reference helper functions.
-source /helpers/tableau/_util.sh
+source /helpers/_util.sh
 
 # Database configuration.
 FILE=""

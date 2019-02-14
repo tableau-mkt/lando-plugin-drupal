@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Reference helper functions.
-source /helpers/tableau/_util.sh
+source /helpers/_util.sh
 
 # Set option defaults.
 ENV=$(cd $LANDO_MOUNT && git branch | sed -n -e 's/^\* \(.*\)/\1/p')
@@ -147,9 +147,9 @@ if [ "$ENV" != "none" ]; then
     # A little animation to make the waiting more bearable.
     while kill -0 $pid 2>/dev/null
     do
-      ascii_anim /helpers/tableau/caboose/animations/train
+      ascii_anim /helpers/animations/train
     done
-    ascii_anim /helpers/tableau/caboose/animations/train true
+    ascii_anim /helpers/animations/train true
     info "I grabbed the backup! Saving it in $FILE."
   else
     info "Using existing backup $FILE. If you want to download a newer version
