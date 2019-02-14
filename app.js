@@ -1,7 +1,7 @@
 'use strict';
 
 // Modules
-const _ = require('lodash');
+const _ = module.parent.require('lodash');
 const caboose = require('./lib/caboose');
 const deploy = require('./lib/deploy');
 const dbimport = require('./lib/import');

@@ -1,7 +1,7 @@
 'use strict';
 
 // Modules
-const _ = require('lodash');
+const _ = module.parent.require('lodash');
 
 /**
  * Declares additional NFS mount docker volume.
