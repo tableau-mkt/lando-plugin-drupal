@@ -3,7 +3,7 @@
 set -eo pipefail
 
 # Reference helper functions.
-source /helpers/tableau/_util.sh
+source /helpers/_util.sh
 
 # Declare variables.
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -15,6 +15,15 @@ FORCE=
 # Parse our options.
 while (( "$#" )); do
   case "$1" in
+    --auth|--auth=*)
+      if [ "${1##--auth=}" != "$1" ]; then
+        AUTH="${1##--auth=}"
+        shift
+      else
+        AUTH=$2
+        shift 2
+      fi
+      ;;
     -e|--env|--env=*)
       if [ "${1##--env=}" != "$1" ]; then
         PANTHEON_ENV="${1##--env=}"
@@ -37,27 +46,26 @@ while (( "$#" )); do
       FORCE=true
       shift
       ;;
+    --no-auth)
+        NO_AUTH=true
+        shift
+      ;;
     --)
       shift
       break
       ;;
     -*|--*=)
-      critical "Unsupported flag $1" >&2
-      exit 1
-      ;;
-    *)
       shift
       ;;
+    *)
   esac
 done
 
-# Do some basic validation to make sure we are logged in.
-info "Verifying that you are logged in and authenticated."
-/helpers/tableau/pantheon.sh
-if [ $(terminus auth:whoami | grep "You are not logged in.") ] ; then
-  critical "You are not authenticated with Terminus. Try running the following command first:
-  ${YLW}'lando ssh -c \"terminus auth:login --machine-token=\${PANTHEON_MACHINE_TOKEN}\"${RESET}"
-  exit 1;
+info "Run 'lando deploy --help' for more information"
+
+# Go through the auth procedure
+if [ "$NO_AUTH" == "false" ]; then
+  /helpers/auth.sh "$AUTH" "$SITE"
 fi
 
 if [ "$PANTHEON_ENV" == "master" ] && [ -z "$FORCE" ] ; then

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Reference helper functions.
-source /helpers/tableau/_util.sh
+source /helpers/_util.sh
 
 # Database configuration.
 FILE=""
@@ -81,7 +81,7 @@ while (( "$#" )); do
   esac
 done
 
-info "Run 'lando import -- --help' for more information"
+info "Run 'lando import --help' for more information"
 
 # Validate we have a file.
 if [ ! -f "$FILE" ]; then

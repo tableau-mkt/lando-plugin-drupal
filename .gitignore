@@ -12,3 +12,4 @@
 *.tar
 *.jxp
 *.sublime-*
+node_modules

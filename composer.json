@@ -1,6 +1,6 @@
 {
   "name": "tableau-mkt/tableau-recipes",
-  "description": "Lando recipe for Tableau Pantheon Drupal 8 site",
+  "description": "Custom lando recipes and tooling",
   "type": "lando-plugin",
   "keywords": [],
   "homepage": "https://github.com/tableau-mkt/lando-plugin-tableau-recipes",
