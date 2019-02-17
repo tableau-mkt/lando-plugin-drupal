@@ -66,7 +66,6 @@ If you are using a local DNS on your machine you can use this tooling command to
 generate an infinite amount of subdomains on your site. Site aliases allows us to reserve
 a specific subdomain and have it point to a different database, but use the same codebase.
 
-
 WHY? Sometimes your db contains data specific to your dev work, and you don't want to caboose 
 over it. However, you need to review someone else's code locally and need a 
 fresh db.
@@ -119,7 +118,4 @@ and web to /app/web
 
 ### Useful Docs
 
-We're using the `/.env` file to override specific environment variables. Do not override in the `~/.lando` config
-as it will get overwritten on upgrade.
-
-More information [here](https://docs.devwithlando.io/config/env.html).
+Everything [Lando](https://docs.devwithlando.io).
