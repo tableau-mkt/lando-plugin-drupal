@@ -61,7 +61,7 @@ module.exports = (app, lando) => {
         // Throw some sort of error
         // NOTE: this provides some error handling when we are completely non-interactive
           .catch(err => {
-            throw (_.has(err, 'response.data')) ? new Error(err.response.data) : err;
+            lando.log.warn((_.has(err, 'response.data')) ? new Warning(err.response.data) : err);
           });
       });
     });
