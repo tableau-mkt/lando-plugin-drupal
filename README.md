@@ -117,5 +117,5 @@ and web to /app/web
 ![image](https://user-images.githubusercontent.com/8611594/38646711-ea574b08-3d9d-11e8-9aa0-54af278823b4.png)
 
 ### Useful Docs
-
-Everything [Lando](https://docs.devwithlando.io).
+* [Lando + Xdebug + PhpStorm](https://docs.devwithlando.io/guides/lando-phpstorm.html)
+* Everything [Lando](https://docs.devwithlando.io).
