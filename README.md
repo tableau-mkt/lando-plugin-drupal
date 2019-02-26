@@ -110,7 +110,7 @@ In your IDE, go to Languages & Frameworks > PHP > Debug
 Temporarily set your debug connection to "Break at first line in PHP scripts"
 
 __Setting up your path mappings.__
-Start listening for PHP debug connections and navigate to http://lando.tableau.com. If your Xdebug is
+Start listening for PHP debug connections and navigate to http://tableau.lando. If your Xdebug is
 working correctly it will prompt you in PhpStorm. Make sure your /app is correctly mapped to your directory
 and web to /app/web
 
